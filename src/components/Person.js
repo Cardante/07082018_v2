@@ -15,7 +15,7 @@ import './Person.css';
 
 //props received from the app component
 const person = props => 
-    <div className="Person">
+    <div className="Person" onClick={props.click}>
         <h1>Hello I am {props.name} and I am {props.age} years old</h1>
         <h2>{props.children}</h2>
         {/*onChange is a special parameter that executes everytime a user types in the input field*/}

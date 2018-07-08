@@ -40,6 +40,19 @@ class App extends Component {
     })
   }
 
+  deletePersonHandler = (index) => {
+    //Dangerous because if the state is changed, so the persons array
+    //const persons = this.state.persons;
+    
+    //Better alternative because it does not create references
+    const persons = [...this.state.persons];
+    persons.splice(index, 1);
+    this.setState({
+      ...this.state,
+      persons: persons
+    });
+  }
+
   //Will call this method to render something to the screen
   render() {
 
@@ -51,16 +64,15 @@ class App extends Component {
       cursor: 'pointer'
     }
 
-    let persons = null;
-    if (this.state.showPersons) {
+    let persons = this.state.showPersons ?
       persons = (
         <div>
-          {this.state.persons.map((person, i) => 
-            <Person key={i} nameChanged={this.nameChangedHandler} name={person.name} age={person.age}/>
+          {this.state.persons.map((person, index) => 
+            <Person key={index} click={this.deletePersonHandler.bind(this, index)} nameChanged={this.nameChangedHandler} name={person.name} age={person.age}/>
           )}
         </div>
-      );
-    }
+      ) : null;
+    
 
     //returns JSX to the screen, but before it´s tranlasted by babel
     //Must have only one root element
@@ -71,7 +83,11 @@ class App extends Component {
         <button style={style} onClick={this.togglePersonsHandler}>Toggle Users</button>
         {/*this is the class*/}
         {/*USE OF BIND TO PASS PARAMETERS TO THE FUNCTION*/}
-        {this.state.showPersons  ? 
+        
+        {persons}
+
+        {/*Alternative*/}
+        {/*{this.state.showPersons  ? 
           <div>
             {this.state.persons.map((person, i) => 
               <Person key={i} nameChanged={this.nameChangedHandler} name={person.name} age={person.age}/>
@@ -79,7 +95,7 @@ class App extends Component {
           </div>
           :
           null
-        }
+        }*/}
 
       </div>
     );
