@@ -15,11 +15,12 @@ import './Person.css';
 
 //props received from the app component
 const person = props => 
-    <div className="Person" onClick={props.click}>
+    <div className="Person">
         <h1>Hello I am {props.name} and I am {props.age} years old</h1>
         <h2>{props.children}</h2>
         {/*onChange is a special parameter that executes everytime a user types in the input field*/}
         <input type="text" onChange={props.nameChanged}  value={props.name}/>
+        <p><a className="Person_delete" href="#" onClick={props.click}>Delete</a></p>
     </div>
 
 export default person;
