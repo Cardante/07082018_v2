@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-
 import Person from './components/Person';
 
 class App extends Component {
@@ -73,14 +72,16 @@ class App extends Component {
   render() {
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
     }
 
-    let persons = this.state.showPersons ?
+    let persons = null;
+
+    if (this.state.showPersons){
       persons = (
         <div>
           {this.state.persons.map((person, index) => 
@@ -92,34 +93,51 @@ class App extends Component {
             age={person.age}/>
           )}
         </div>
-      ) : null;
+      );
+
+      //CHANGING STYLES DYNAMIC
+      style.backgroundColor = "red";
+    } 
+
+
+    //Dynamic assign classes
+    let classes = [];
+
+    if(this.state.persons.length <= 2) {
+      classes.push('red');
+    } 
+    
+    if (this.state.persons.length <=1) {
+      classes.push('bold');
+    }
     
     //returns JSX to the screen, but before it´s tranlasted by babel
     //Must have only one root element
     return (
-      <div className="App">
-        <h1>First React App</h1>
-        <p>This is the second element of the root element.</p>
-        <button style={style} onClick={this.togglePersonsHandler}>Toggle Users</button>
-        {/*this is the class*/}
-        {/*USE OF BIND TO PASS PARAMETERS TO THE FUNCTION*/}
-        
-        {persons}
+        <div className="App">
+          <h1>First React App</h1>
+          <p className={classes.join(' ')}>This is the second element of the root element.</p>
+          <button style={style} onClick={this.togglePersonsHandler}>Toggle Users</button>
+          {/*this is the class*/}
+          {/*USE OF BIND TO PASS PARAMETERS TO THE FUNCTION*/}
+          
+          {persons}
 
-        {/*Alternative*/}
-        {/*{this.state.showPersons  ? 
-          <div>
-            {this.state.persons.map((person, i) => 
-              <Person key={i} nameChanged={this.nameChangedHandler} name={person.name} age={person.age}/>
-            )}
-          </div>
-          :
-          null
-        }*/}
+          {/*Alternative*/}
+          {/*{this.state.showPersons  ? 
+            <div>
+              {this.state.persons.map((person, i) => 
+                <Person key={i} nameChanged={this.nameChangedHandler} name={person.name} age={person.age}/>
+              )}
+            </div>
+            :
+            null
+          }*/}
 
-      </div>
+        </div>
     );
   }
 }
 
+//component wrapping App component, adding extra features
 export default App;
